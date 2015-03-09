@@ -55,7 +55,9 @@ client = GoodDataTwitterAds.connect(:consumer_key  		 => consumer_key,
 client_s3 = Helpers.connect_s3(:access_key_id     => access_key_id,
 							   :secret_access_key => secret_access_key,
 							   :bucket_name       => bucket_name
-							  )
+
+#Use this command to upload data to S3
+#client_s3.upload(:file_name => '', :path_to_s3_folder => path_to_s3_folder)
 
 #--------------------------------------------CREATE ADS OBJECT--------------------------------------------------------------
 client_ads = Helpers.connect_ADS(:username         => username,
@@ -63,7 +65,7 @@ client_ads = Helpers.connect_ADS(:username         => username,
 							     :ads_instance_url => ads_instance_url
 							     )
 
-client_ads.write_data('temp','TRUNCATE TABLE src_message_short_long_url')
+client_ads.write_date('temp','TRUNCATE TABLE src_message_short_long_url')
 
 #---------------------------------------------1. ACCOUNT LIST--------------------------------------------------------------
 #Enable the last line in this block to get a list of accounts. input parametes are given in form of Hash object {}
