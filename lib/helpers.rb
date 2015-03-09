@@ -17,5 +17,4 @@ module Helpers
 end
 
 require_relative 'helpers/S3'
-require_relative 'helpers/delete_files'
 require_relative 'helpers/ADS'
