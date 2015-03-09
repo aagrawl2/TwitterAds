@@ -13,7 +13,7 @@ class Helpers::S3
 			raise ArgumentError, "access_key_id is either empty string or contains no values"
 		elsif secret_access_key=='' || secret_access_key.nil?
 			raise ArgumentError, "secret_access_key is either empty string or contains no values"
-		elsif bucket_name=='' || bucket_name.nil?
+		elsif @bucket_name=='' || @bucket_name.nil?
 			raise ArgumentError, "bucket_name is either empty string or contains no values"
 		end
 		@s3 = AWS::S3.new(:access_key_id => access_key_id, :secret_access_key => secret_access_key)
@@ -26,6 +26,10 @@ class Helpers::S3
 	# 		:path_to_s3_folder => '' (Eg. 'AIDAJNUX6HKJ46IXAJFZU_gdc-ms-cust_temp/source/sitecat/visitswithasearch/')
 	# 		NOTE : Dont forget to put '/' at the end of the folder name, otherwise it will error out
 	def upload(config={})
+
+		file_name         = config.delete(:file_name)
+		path_to_s3_folder = config.delete(:path_to_s3_folder)
+
 		if file_name.nil? || file_name.empty?
 			raise ArgumentError, "file_names is either empty or contains no values"
 		elsif file_name==''
@@ -33,9 +37,9 @@ class Helpers::S3
 		end
 
 		file_names = Array.new
-		file_names = file_name
+		file_names = file_name if file_name.is_a? Array
 
-		file_names.push(file_name)if file_name.is_a? String
+		file_names.push(file_name) if file_name.is_a? String
 
 		file_names.each {|file_name|
 			raise ArgumentError, "File name does not exist in the main directory" if File.exists?(file_name)==false
