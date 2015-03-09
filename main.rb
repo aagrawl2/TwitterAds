@@ -9,7 +9,7 @@ require 'uri'
 require 'time'
 require 'pp'
 require_relative './lib/twitterads'
-require_realtive './lib/helpers'
+require_relative './lib/helpers'
 
 #---------------------------------------------3rd Party GEM INSTALLATION------------------------------------------------------------------------
 #This is used in case oauth is not installed in your system.
@@ -58,12 +58,12 @@ client_s3 = Helpers.connect_s3(:access_key_id     => access_key_id,
 							  )
 
 #--------------------------------------------CREATE ADS OBJECT--------------------------------------------------------------
-client_ads = Helpers.connect_ADS(:username         => username
-							     :password 		   => password
+client_ads = Helpers.connect_ADS(:username         => username,
+							     :password 		   => password,
 							     :ads_instance_url => ads_instance_url
 							     )
 
-accounts = Array.new
+client_ads.write_data('temp','TRUNCATE TABLE src_message_short_long_url')
 
 #---------------------------------------------1. ACCOUNT LIST--------------------------------------------------------------
 #Enable the last line in this block to get a list of accounts. input parametes are given in form of Hash object {}
