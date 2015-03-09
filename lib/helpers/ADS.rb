@@ -12,11 +12,11 @@ class Helpers::ADS
 		@password         = config.delete(:password)
 		@ads_instance_url = config.delete(:ads_instance_url)
 
-		if username=='' || username.nil?
+		if @username=='' || @username.nil?
 			raise ArgumentError, "username is either empty string or contains no values"
-		elsif password=='' || password.nil?
+		elsif @password=='' || @password.nil?
 			raise ArgumentError, "password is either empty string or contains no values"
-		elsif ads_instance_url=='' || ads_instance_url.nil?
+		elsif @ads_instance_url=='' || @ads_instance_url.nil?
 			raise ArgumentError, "ads_instance_url is either empty string or contains no values"
 		end
 	end
