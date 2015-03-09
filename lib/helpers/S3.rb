@@ -8,15 +8,17 @@ class Helpers::S3
 	def initialize(config={})
 		access_key_id        = config.delete(:access_key_id)
 		secret_access_key    = config.delete(:secret_access_key)
-		@bucket_name 		 = config.delete(:bucket_name)
+		puts access_key_id,secret_access_key
+		bucket_name 		 = config.delete(:bucket_name)
 		if access_key_id=='' || access_key_id.nil?
 			raise ArgumentError, "access_key_id is either empty string or contains no values"
 		elsif secret_access_key=='' || secret_access_key.nil?
 			raise ArgumentError, "secret_access_key is either empty string or contains no values"
-		elsif @bucket_name=='' || @bucket_name.nil?
+		elsif bucket_name=='' || bucket_name.nil?
 			raise ArgumentError, "bucket_name is either empty string or contains no values"
 		end
 		@s3 = AWS::S3.new(:access_key_id => access_key_id, :secret_access_key => secret_access_key)
+		@bucket_name = bucket_name
 	end
 
 #-----------------------------------------------------UPLOAD TO S3------------------------------------------------------------------
@@ -40,13 +42,12 @@ class Helpers::S3
 		file_names = file_name if file_name.is_a? Array
 
 		file_names.push(file_name) if file_name.is_a? String
-
-		file_names.each {|file_name|
-			raise ArgumentError, "File name does not exist in the main directory" if File.exists?(file_name)==false
-			final_file_path = path_to_s3_folder + file_name
-			@s3.buckets[@bucket_name].objects[final_file_path].write(:file => file_name)
-			puts "#{file_name} successfully uploaded"
-		} unless file_name.nil?
+		file_names.each {|file|
+			#raise ArgumentError, "File name does not exist in the main directory" if File.exists?(file)==false
+			final_file_path = path_to_s3_folder + file
+			@s3.buckets[@bucket_name].objects[final_file_path].write(:file => file)
+			puts "#{file} successfully uploaded"
+		} unless file_names.nil?
 	end
 
 end
